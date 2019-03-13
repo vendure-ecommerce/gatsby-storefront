@@ -6,6 +6,19 @@ module.exports = {
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
+    `gatsby-plugin-typescript`,
+    `gatsby-plugin-sass`,
+    {
+      resolve: "gatsby-source-graphql",
+      options: {
+        // This type will contain remote schema Query type
+        typeName: "Vendure",
+        // This is field under which it's accessible
+        fieldName: "vendure",
+        // Url to query from
+        url: "https://demo.vendure.io/shop-api",
+      },
+    },
     {
       resolve: `gatsby-source-filesystem`,
       options: {
