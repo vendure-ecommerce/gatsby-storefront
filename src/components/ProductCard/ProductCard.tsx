@@ -22,7 +22,7 @@ export function ProductCard({ product }: { product: any }) {
         </div>
 
         <div className="content">
-          {product.description}
+          <p className="is-size-7">{product.description}</p>
           <br />
           <ProductPrice variants={product.variants} />
         </div>

@@ -4,11 +4,13 @@
   right: 0;
   top: 0;
   bottom: 0;
-  width: 400px;
+  width: 450px;
   padding: 12px;
-  z-index: 1;
-  transform: translateX(400px);
+  z-index: 10;
+  transform: translateX(450px);
   transition: transform 300ms;
+  border-left: 1px solid #eee;
+  box-shadow: -1px 0px 26px -6px rgba(0,0,0,0.5);
 
   &.opened {
     transform: translateX(0);
@@ -20,5 +22,14 @@
   td {
     padding-top: 12px;
     padding-bottom: 12px;
+    vertical-align: middle;
+  }
+
+  .adjust-quantity {
+    margin: 0 6px;
+  }
+
+  .total-row {
+    font-weight: bold;
   }
 }

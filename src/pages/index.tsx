@@ -10,7 +10,6 @@ import styles from "./home.module.scss";
 const IndexPage = ({ data }) => (
   <Layout>
     <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
-    <h1>Products</h1>
     <section className={styles.productList}>
       { data.vendure.products.items.map(item => <ProductCard product={item} key={item.id} />) }
     </section>
@@ -27,9 +26,11 @@ export const query = graphql`
           slug
           description
           featuredAsset {
+            id
             preview
           }
           variants {
+            id
             priceWithTax
             currencyCode
           }
