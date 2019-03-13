@@ -5,6 +5,8 @@
   "version": "0.1.0",
   "author": "Kyle Mathews <mathews.kyle@gmail.com>",
   "dependencies": {
+    "apollo-boost": "^0.3.1",
+    "apollo-client": "^2.5.1",
     "bulma": "^0.7.4",
     "gatsby": "^2.1.31",
     "gatsby-image": "^2.0.33",
@@ -17,6 +19,7 @@
     "gatsby-transformer-sharp": "^2.1.17",
     "prop-types": "^15.7.2",
     "react": "^16.8.4",
+    "react-apollo-hooks": "^0.4.3",
     "react-dom": "^16.8.4",
     "react-helmet": "^5.2.0"
   },

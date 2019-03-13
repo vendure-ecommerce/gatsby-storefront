@@ -1,6 +1,7 @@
 import React from "react"
 import styles from "./ProductCard.module.scss"
 import { Link } from "gatsby"
+import { formatPrice } from "../../utilities/utilities"
 
 export function ProductCard({ product }: { product: any }) {
   return (
@@ -34,15 +35,7 @@ function ProductPrice({ variants }) {
   const price = Math.min(...variants.map(v => v.priceWithTax))
   return (
     <div className={styles.productPrice}>
-      {variants.length > 1 && "from"} {format(variants[0].currencyCode, price)}
+      {variants.length > 1 && "from"} {formatPrice(variants[0].currencyCode, price)}
     </div>
   )
-}
-
-function format(currency: string, value: number): string {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency,
-    currencyDisplay: "symbol",
-  }).format(value / 100)
 }
