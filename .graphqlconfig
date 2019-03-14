@@ -3,9 +3,13 @@
   "schemaPath": "./schema.graphql",
   "extensions": {
     "endpoints": {
-      "Default GraphQL Endpoint": {
+      "gatsby": {
         "url": "http://localhost:8000/___graphql",
-        "introspect": false
+        "introspect": true
+      },
+      "vendure": {
+        "url": "https://demo.vendure.io/shop-api",
+        "introspect": true
       }
     }
   }
