@@ -77,75 +77,64 @@ export function ShoppingCart() {
       >
         <button className="delete" onClick={() => setOpened(false)} />
         <h3 className="title is-3">Cart</h3>
-        {(() => {
-          if (data.activeOrder) {
-            return (
-              <table>
-                <tbody>
-                  {data.activeOrder.lines.map(line => (
-                    <tr key={line.id}>
-                      <td>
-                        <img
-                          src={`${line.featuredAsset.preview}?preset=tiny`}
-                        />
-                      </td>
-                      <td>{line.productVariant.name}</td>
-                      <td>
-                        <button
-                          className={styles.adjustQuantity + ' button is-small'}
-                          onClick={() =>
-                            adjustItemQuantity({
-                              variables: {
-                                id: line.id,
-                                quantity: line.quantity - 1,
-                              },
-                            })
-                          }
-                        >
-                          -
-                        </button>
-                        {line.quantity}
-                        <button
-                          className={styles.adjustQuantity + ' button is-small'}
-                          onClick={() =>
-                            adjustItemQuantity({
-                              variables: {
-                                id: line.id,
-                                quantity: line.quantity + 1,
-                              },
-                            })
-                          }
-                        >
-                          +
-                        </button>
-                      </td>
-                      <td>
-                        {formatPrice(
-                          line.productVariant.currencyCode,
-                          line.totalPrice,
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                  <tr className={styles.totalRow}>
-                    <td>Total:</td>
-                    <td />
-                    <td />
-                    <td>
-                      {formatPrice(
-                        data.activeOrder.currencyCode,
-                        data.activeOrder.total,
-                      )}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            );
-          } else {
-            return <div>Empty!</div>;
-          }
-        })()}
+        {data.activeOrder ? (
+          <CartContentsTable
+            order={data.activeOrder}
+            adjustQuantity={(id, quantity) =>
+              adjustItemQuantity({
+                variables: { id, quantity },
+              })
+            }
+          />
+        ) : (
+          <div>Empty!</div>
+        )}
       </div>
     </>
+  );
+}
+
+function CartContentsTable({ order, adjustQuantity }) {
+  return (
+    <table>
+      <tbody>
+        {order.lines.map(line => (
+          <CartContentsRow line={line} adjustQuantity={adjustQuantity}  key={line.id}/>
+        ))}
+        <tr className={styles.totalRow}>
+          <td>Total:</td>
+          <td />
+          <td />
+          <td>{formatPrice(order.currencyCode, order.total)}</td>
+        </tr>
+      </tbody>
+    </table>
+  );
+}
+
+function CartContentsRow({ line, adjustQuantity }) {
+  return (
+    <tr>
+      <td>
+        <img src={`${line.featuredAsset.preview}?preset=tiny`} />
+      </td>
+      <td>{line.productVariant.name}</td>
+      <td>
+        <button
+          className={styles.adjustQuantity + ' button is-small'}
+          onClick={() => adjustQuantity(line.id, line.quantity - 1)}
+        >
+          -
+        </button>
+        {line.quantity}
+        <button
+          className={styles.adjustQuantity + ' button is-small'}
+          onClick={() => adjustQuantity(line.id, line.quantity + 1)}
+        >
+          +
+        </button>
+      </td>
+      <td>{formatPrice(line.productVariant.currencyCode, line.totalPrice)}</td>
+    </tr>
   );
 }
