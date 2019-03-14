@@ -1,7 +1,8 @@
-import { Link } from "gatsby"
-import PropTypes from "prop-types"
-import React from "react"
-import { ShoppingCart } from "./ShoppingCart/ShoppingCart"
+import { Link } from 'gatsby';
+import PropTypes from 'prop-types';
+import React from 'react';
+
+import { ShoppingCart } from './ShoppingCart/ShoppingCart';
 
 const Header = ({ siteTitle }) => (
   <header
@@ -13,7 +14,7 @@ const Header = ({ siteTitle }) => (
     <div>
       <h1 style={{ margin: 0 }}>
         <Link
-          to="/"
+          to='/'
           style={{
             color: `white`,
             textDecoration: `none`,
@@ -25,14 +26,14 @@ const Header = ({ siteTitle }) => (
     </div>
     <ShoppingCart/>
   </header>
-)
+);
 
 Header.propTypes = {
   siteTitle: PropTypes.string,
-}
+};
 
 Header.defaultProps = {
   siteTitle: ``,
-}
+};
 
-export default Header
+export default Header;

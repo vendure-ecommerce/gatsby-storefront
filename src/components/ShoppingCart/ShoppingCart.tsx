@@ -1,8 +1,10 @@
+import { gql } from 'apollo-boost';
 import React, { useState } from 'react';
 import { useMutation, useQuery } from 'react-apollo-hooks';
-import { gql } from 'apollo-boost';
-import styles from './ShoppingCart.module.scss';
+
 import { formatPrice } from '../../utilities/utilities';
+
+import styles from './ShoppingCart.module.scss';
 
 export const ORDER_FRAGMENT = gql`
   fragment ActiveOrder on Order {
@@ -26,7 +28,7 @@ export const ORDER_FRAGMENT = gql`
       }
     }
   }
-`
+`;
 
 const GET_ACTIVE_ORDER = gql`
   {
@@ -60,10 +62,11 @@ export function ShoppingCart() {
   return (
     <>
       <button className="button is-primary" onClick={() => setOpened(true)}>
-        Cart: {data.activeOrder
+        Cart:{' '}
+        {data.activeOrder
           ? data.activeOrder.lines.reduce(
               (total, line) => total + line.quantity,
-              0
+              0,
             )
           : 0}
       </button>
@@ -119,16 +122,21 @@ export function ShoppingCart() {
                       <td>
                         {formatPrice(
                           line.productVariant.currencyCode,
-                          line.totalPrice
+                          line.totalPrice,
                         )}
                       </td>
                     </tr>
                   ))}
                   <tr className={styles.totalRow}>
                     <td>Total:</td>
-                    <td></td>
-                    <td></td>
-                    <td>{formatPrice(data.activeOrder.currencyCode, data.activeOrder.total)}</td>
+                    <td />
+                    <td />
+                    <td>
+                      {formatPrice(
+                        data.activeOrder.currencyCode,
+                        data.activeOrder.total,
+                      )}
+                    </td>
                   </tr>
                 </tbody>
               </table>

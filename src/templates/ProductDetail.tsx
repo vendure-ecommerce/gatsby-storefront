@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-import { graphql } from 'gatsby';
-import Layout from '../components/layout';
 import { gql } from 'apollo-boost';
+import { graphql } from 'gatsby';
+import React, { useState } from 'react';
 import { useMutation } from 'react-apollo-hooks';
+
+import Layout from '../components/layout';
+import { ORDER_FRAGMENT } from '../components/ShoppingCart/ShoppingCart';
 import { formatPrice } from '../utilities/utilities';
-import { ORDER_FRAGMENT } from "../components/ShoppingCart/ShoppingCart"
 
 const ADD_ITEM_TO_ORDER = gql`
   mutation AddItemToOrder($id: ID!, $quantity: Int!) {
@@ -27,18 +28,18 @@ export default ({ data }) => {
   });
   return (
     <Layout>
-      <div className="columns">
-        <figure className="column">
+      <div className='columns'>
+        <figure className='column'>
           <img src={product.featuredAsset.preview + '?preset=medium'} />
         </figure>
-        <div className="column">
-          <h1 className="title is-1">{product.name}</h1>
+        <div className='column'>
+          <h1 className='title is-1'>{product.name}</h1>
 
           <div dangerouslySetInnerHTML={{ __html: product.description }} />
-          <div className="select">
+          <div className='select'>
           <select
             value={variantId}
-            onChange={e => setVariantId(e.target.value)}
+            onChange={e => setVariantId(e.currentTarget.value)}
           >
             {product.variants.map(variant => (
               <option key={variant.id} value={variant.id}>
@@ -48,8 +49,8 @@ export default ({ data }) => {
             ))}
           </select>
           </div>
-          <div className="select">
-          <select value={quantity} onChange={e => setQuantity(+e.target.value)}>
+          <div className='select'>
+          <select value={quantity} onChange={e => setQuantity(+e.currentTarget.value)}>
             {Array.from({ length: 10 }).map((_, index) => (
               <option key={index} value={index + 1}>
                 {index + 1}
@@ -57,7 +58,7 @@ export default ({ data }) => {
             ))}
           </select>
           </div>
-          <button className="button is-primary is-large" onClick={addToOrder}>
+          <button className='button is-primary is-large' onClick={addToOrder as any}>
             Add to cart
           </button>
         </div>
