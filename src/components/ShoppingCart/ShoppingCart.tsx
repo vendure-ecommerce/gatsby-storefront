@@ -30,7 +30,7 @@ export const ORDER_FRAGMENT = gql`
   }
 `;
 
-const GET_ACTIVE_ORDER = gql`
+export const GET_ACTIVE_ORDER = gql`
   {
     activeOrder {
       ...ActiveOrder
