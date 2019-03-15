@@ -1,3 +1,5 @@
+import { faShoppingBag } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { gql } from 'apollo-boost';
 import React, { useState } from 'react';
 import { useMutation, useQuery } from 'react-apollo-hooks';
@@ -58,11 +60,10 @@ export function ShoppingCart() {
   if (error) {
     return <div>Error! {error.message}</div>;
   }
-  console.log(data);
   return (
     <>
       <button className="button is-primary" onClick={() => setOpened(true)}>
-        Cart:{' '}
+        <FontAwesomeIcon icon={faShoppingBag} pull="left" />
         {data.activeOrder
           ? data.activeOrder.lines.reduce(
               (total, line) => total + line.quantity,
@@ -99,7 +100,11 @@ function CartContentsTable({ order, adjustQuantity }) {
     <table>
       <tbody>
         {order.lines.map(line => (
-          <CartContentsRow line={line} adjustQuantity={adjustQuantity}  key={line.id}/>
+          <CartContentsRow
+            line={line}
+            adjustQuantity={adjustQuantity}
+            key={line.id}
+          />
         ))}
         <tr className={styles.totalRow}>
           <td>Total:</td>

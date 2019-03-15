@@ -8,3 +8,9 @@ This repo is the result of ~4 hours experimentation. I've never used Gatsby befo
 
 So far there is a list/detail view of products and the ability to add products to the cart.
 
+## Setup
+
+1. Clone this repo
+2. `yarn` or `npm install`
+3. `yarn develop` or `npm run develop`
+
