@@ -7,12 +7,12 @@ import { ShoppingCart } from './ShoppingCart/ShoppingCart';
 const Header = ({ siteTitle }) => (
   <header
     style={{
-      background: `rebeccapurple`,
+      background: `#13b7f3`,
       marginBottom: `1.45rem`,
     }}
   >
     <div>
-      <h1 style={{ margin: 0 }}>
+      <h1 style={{ margin: 0 }} className="title is-4">
         <Link
           to='/'
           style={{

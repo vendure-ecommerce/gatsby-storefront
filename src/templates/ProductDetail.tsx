@@ -10,6 +10,8 @@ import {
 } from '../components/ShoppingCart/ShoppingCart';
 import { formatPrice } from '../utilities/utilities';
 
+import styles from './ProductDetail.module.scss';
+
 const ADD_ITEM_TO_ORDER = gql`
   mutation AddItemToOrder($id: ID!, $quantity: Int!) {
     addItemToOrder(productVariantId: $id, quantity: $quantity) {
@@ -61,49 +63,52 @@ export default ({ data }) => {
     });
   }
   return (
-    <Layout>
-      <div className="columns">
-        <figure className="column">
-          <img src={product.featuredAsset.preview + '?preset=medium'} />
-        </figure>
-        <div className="column">
-          <h1 className="title is-1">{product.name}</h1>
+      <Layout>
+        <div className="columns">
+          <figure className="column">
+            <img src={product.featuredAsset.preview + '?preset=medium'} />
+          </figure>
+          <div className="column">
+            <h1 className="title is-1">{product.name}</h1>
 
-          <div dangerouslySetInnerHTML={{ __html: product.description }} />
-          <div className="select">
-            <select
-              value={variantId}
-              onChange={e => setVariantId(e.currentTarget.value)}
+            <div className={styles.description} dangerouslySetInnerHTML={{ __html: product.description }} />
+
+            <div>
+              <div className="select">
+                <select
+                    value={variantId}
+                    onChange={e => setVariantId(e.currentTarget.value)}
+                >
+                  {product.variants.map(variant => (
+                      <option key={variant.id} value={variant.id}>
+                        {variant.name}{' '}
+                        {formatPrice(variant.currencyCode, variant.priceWithTax)}
+                      </option>
+                  ))}
+                </select>
+              </div>
+              <div className="select">
+                <select
+                    value={quantity}
+                    onChange={e => setQuantity(+e.currentTarget.value)}
+                >
+                  {Array.from({ length: 10 }).map((_, index) => (
+                      <option key={index} value={index + 1}>
+                        {index + 1}
+                      </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            <button
+                className="button is-primary is-large"
+                onClick={addToOrderSetOrderId}
             >
-              {product.variants.map(variant => (
-                <option key={variant.id} value={variant.id}>
-                  {variant.name}{' '}
-                  {formatPrice(variant.currencyCode, variant.priceWithTax)}
-                </option>
-              ))}
-            </select>
+              Add to cart
+            </button>
           </div>
-          <div className="select">
-            <select
-              value={quantity}
-              onChange={e => setQuantity(+e.currentTarget.value)}
-            >
-              {Array.from({ length: 10 }).map((_, index) => (
-                <option key={index} value={index + 1}>
-                  {index + 1}
-                </option>
-              ))}
-            </select>
-          </div>
-          <button
-            className="button is-primary is-large"
-            onClick={addToOrderSetOrderId}
-          >
-            Add to cart
-          </button>
         </div>
-      </div>
-    </Layout>
+      </Layout>
   );
 };
 

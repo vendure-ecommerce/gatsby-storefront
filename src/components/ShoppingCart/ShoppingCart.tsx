@@ -1,4 +1,4 @@
-import { faShoppingBag } from '@fortawesome/free-solid-svg-icons';
+import { faMinus, faPlus, faShoppingBag } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { gql } from 'apollo-boost';
 import React, { useState } from 'react';
@@ -61,85 +61,83 @@ export function ShoppingCart() {
     return <div>Error! {error.message}</div>;
   }
   return (
-    <>
-      <button className="button is-primary" onClick={() => setOpened(true)}>
-        <FontAwesomeIcon icon={faShoppingBag} pull="left" />
-        {data.activeOrder
-          ? data.activeOrder.lines.reduce(
-              (total, line) => total + line.quantity,
-              0,
-            )
-          : 0}
-      </button>
-      <div
-        className={[styles.cartTray, opened && styles.opened]
-          .filter(Boolean)
-          .join(' ')}
-      >
-        <button className="delete" onClick={() => setOpened(false)} />
-        <h3 className="title is-3">Cart</h3>
-        {data.activeOrder ? (
-          <CartContentsTable
-            order={data.activeOrder}
-            adjustQuantity={(id, quantity) =>
-              adjustItemQuantity({
-                variables: { id, quantity },
-              })
-            }
-          />
-        ) : (
-          <div>Empty!</div>
-        )}
-      </div>
-    </>
+      <>
+        <button className={'button is-primary ' + styles.cartButton} onClick={() => setOpened(true)}>
+          <FontAwesomeIcon icon={faShoppingBag} pull="left" />
+          {data.activeOrder
+              ? data.activeOrder.lines.reduce(
+                  (total, line) => total + line.quantity,
+                  0,
+              )
+              : 0}
+        </button>
+        <div
+            className={[styles.cartTray, opened && styles.opened]
+                .filter(Boolean)
+                .join(' ')}
+        >
+          <button className="delete" onClick={() => setOpened(false)} />
+          <h3 className="title is-3">Cart</h3>
+          {data.activeOrder ? (
+              <CartContentsList
+                  order={data.activeOrder}
+                  adjustQuantity={(id, quantity) =>
+                      adjustItemQuantity({
+                        variables: { id, quantity },
+                      })
+                  }
+              />
+          ) : (
+              <div>Empty!</div>
+          )}
+        </div>
+      </>
   );
 }
 
-function CartContentsTable({ order, adjustQuantity }) {
+function CartContentsList({ order, adjustQuantity }) {
   return (
-    <table>
-      <tbody>
+      <div className={styles.cartContents}>
         {order.lines.map(line => (
-          <CartContentsRow
-            line={line}
-            adjustQuantity={adjustQuantity}
-            key={line.id}
-          />
+            <CartContentsRow
+                line={line}
+                adjustQuantity={adjustQuantity}
+                key={line.id}
+            />
         ))}
-        <tr className={styles.totalRow}>
-          <td>Total:</td>
-          <td />
-          <td />
-          <td>{formatPrice(order.currencyCode, order.total)}</td>
-        </tr>
-      </tbody>
-    </table>
+        <div className={styles.totalRow}>
+          <span>Total:</span>
+          <span>{formatPrice(order.currencyCode, order.total)}</span>
+        </div>
+      </div>
   );
 }
 
 function CartContentsRow({ line, adjustQuantity }) {
   return (
-    <tr>
-      <td>
-        <img src={`${line.featuredAsset.preview}?preset=tiny`} />
-      </td>
-      <td>{line.productVariant.name}</td>
-      <td>
-        <button
-          className={styles.adjustQuantity + ' button is-small'}
-          onClick={() => adjustQuantity(line.id, line.quantity - 1)}
-        >
-          -
-        </button>
-        {line.quantity}
-        <button
-          className={styles.adjustQuantity + ' button is-small'}
-          onClick={() => adjustQuantity(line.id, line.quantity + 1)}
-        >
-          +
-        </button>
-      </td>
-      <td>{formatPrice(line.productVariant.currencyCode, line.totalPrice)}</td>
-    </tr>
+      <div className={styles.cartRow}>
+        <div className={styles.rowImage}>
+          <img src={`${line.featuredAsset.preview}?preset=tiny`} />
+        </div>
+        <div className={styles.rowDetail}>
+          <div>{line.productVariant.name}</div>
+          <div className={styles.qtyRow}>
+            <button
+                className={styles.adjustQuantity}
+                onClick={() => adjustQuantity(line.id, line.quantity - 1)}
+            >
+              <FontAwesomeIcon icon={faMinus} color="#999"/>
+            </button>
+            {line.quantity}
+            <button
+                className={styles.adjustQuantity}
+                onClick={() => adjustQuantity(line.id, line.quantity + 1)}
+            >
+              <FontAwesomeIcon icon={faPlus} color="#999"/>
+            </button>
+            <div className={styles.rowTotal}>{formatPrice(line.productVariant.currencyCode, line.totalPrice)}</div>
+          </div>
+        </div>
+      </div>
   );
 }
