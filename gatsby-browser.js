@@ -13,7 +13,7 @@ const cache = new InMemoryCache();
 const client = new ApolloClient({
   cache,
   credentials: 'include',
-  uri: 'http://localhost:3000/shop-api',
+  uri: 'https://demo.vendure.io/shop-api',
   resolvers: {
     Mutation: {
       setActiveOrderId: (_, { id }, { cache: apolloCache }) => {

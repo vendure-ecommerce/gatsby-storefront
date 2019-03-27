@@ -26,7 +26,6 @@ export function ShippingStage({ nextStage }) {
   }
   return (
     <>
-      <div>Shipping stuff</div>
       <Formik
         onSubmit={formData => {
           addAddressToOrder({

@@ -9,6 +9,8 @@ import { CartContentsList } from '../components/ShoppingCart/ShoppingCart';
 import { GET_ACTIVE_ORDER } from '../components/ShoppingCart/ShoppingCart.vendure';
 import { SignInStage } from '../components/SignInStage/SignInStage';
 
+import * as styles from './checkout.module.scss';
+
 function useProgress(initialStage = 0) {
   const [currentStage, setStage] = useState(initialStage);
   return {
@@ -51,13 +53,13 @@ const CheckoutPage = () => {
     <Layout>
       <div className="columns">
         <div className="column is-three-quarters">
-          <div>
+          <div className={styles.checkoutStageIndicator}>
             <ol>
               {stages.map((stage, index) => (
                 <li
                   key={stage.name}
                   className={
-                    index === currentStage ? 'has-text-weight-bold' : ''
+                    index === currentStage ? styles.active : ''
                   }
                 >
                   {stage.name}

@@ -1,0 +1,16 @@
+.checkout-stage-indicator {
+  padding: 12px;
+  margin-bottom: 12px;
+  ol {
+    display: flex;
+    justify-content: space-between;
+
+    li {
+      flex: 1;
+      color: #555;
+      &.active {
+        font-weight: bold;
+      }
+    }
+  }
+}

@@ -20,7 +20,6 @@ export function SignInStage({ nextStage }) {
   }
   return (
     <>
-      <div>Shipping stuff</div>
       <Formik
         onSubmit={({ __typename, id, ...formData }) => {
           setOrderCustomer({
