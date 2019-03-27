@@ -27,6 +27,10 @@
     "react-helmet": "^5.2.0"
   },
   "devDependencies": {
+    "@graphql-codegen/add": "^1.0.4",
+    "@graphql-codegen/cli": "^1.0.4",
+    "@graphql-codegen/typescript": "^1.0.4",
+    "@graphql-codegen/typescript-operations": "^1.0.4",
     "@types/react": "^16.8.8",
     "gatsby-plugin-sass": "^2.0.11",
     "gatsby-source-graphql": "^2.0.14",
