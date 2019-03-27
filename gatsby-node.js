@@ -35,7 +35,7 @@ exports.createPages = ({ graphql, actions }) => {
           // in page queries as GraphQL variables.
           id: product.id,
         },
-      })
-    })
-  })
-}
+      });
+    });
+  });
+};

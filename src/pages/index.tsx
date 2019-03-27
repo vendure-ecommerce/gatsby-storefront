@@ -1,7 +1,6 @@
 import { graphql, Link } from 'gatsby';
 import React from 'react';
 
-import Image from '../components/image';
 import Layout from '../components/layout';
 import { ProductCard } from '../components/ProductCard/ProductCard';
 import SEO from '../components/seo';
@@ -12,7 +11,7 @@ const IndexPage = ({ data }) => (
   <Layout>
     <SEO title='Home' keywords={[`gatsby`, `application`, `react`]} />
     <section className={styles.productList}>
-      { data.vendure.products.items.map(item => <ProductCard product={item} key={item.id} />) }
+      { data.vendure.search.items.map(item => <ProductCard product={item} key={item.id} />) }
     </section>
   </Layout>
 );
@@ -20,21 +19,23 @@ const IndexPage = ({ data }) => (
 export const query = graphql`
   {
     vendure {
-      products {
+      search(input: { groupByProduct: true }) {
         items {
-          id
-          name
-          slug
+          productId
+          productName
           description
-          featuredAsset {
-            id
-            preview
+          slug
+          currencyCode
+          priceWithTax {
+            ... on Vendure_PriceRange {
+              min
+              max
+            }
+            ... on Vendure_SinglePrice {
+              value
+            }
           }
-          variants {
-            id
-            priceWithTax
-            currencyCode
-          }
+          productPreview
         }
       }
     }

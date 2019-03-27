@@ -1,4 +1,4 @@
-import { faMinus, faPlus, faShoppingBag } from "@fortawesome/free-solid-svg-icons"
+import { faMinus, faPlus, faShoppingBag } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { gql } from 'apollo-boost';
 import React, { useState } from 'react';
@@ -7,48 +7,7 @@ import { useMutation, useQuery } from 'react-apollo-hooks';
 import { formatPrice } from '../../utilities/utilities';
 
 import styles from './ShoppingCart.module.scss';
-
-export const ORDER_FRAGMENT = gql`
-  fragment ActiveOrder on Order {
-    id
-    code
-    total
-    currencyCode
-    lines {
-      id
-      productVariant {
-        id
-        name
-        currencyCode
-      }
-      unitPriceWithTax
-      quantity
-      totalPrice
-      featuredAsset {
-        id
-        preview
-      }
-    }
-  }
-`;
-
-export const GET_ACTIVE_ORDER = gql`
-  {
-    activeOrder {
-      ...ActiveOrder
-    }
-  }
-  ${ORDER_FRAGMENT}
-`;
-
-const ADJUST_ITEM_QUANTITY = gql`
-  mutation AdjustItemQuantity($id: ID!, $quantity: Int!) {
-    adjustItemQuantity(orderItemId: $id, quantity: $quantity) {
-      ...ActiveOrder
-    }
-  }
-  ${ORDER_FRAGMENT}
-`;
+import { ADJUST_ITEM_QUANTITY, GET_ACTIVE_ORDER } from "./ShoppingCart.vendure";
 
 export function ShoppingCart() {
   const { data, error, loading } = useQuery(GET_ACTIVE_ORDER);

@@ -4,34 +4,11 @@ import React, { useState } from 'react';
 import { useMutation, useQuery } from 'react-apollo-hooks';
 
 import Layout from '../components/layout';
-import {
-  GET_ACTIVE_ORDER,
-  ORDER_FRAGMENT,
-} from '../components/ShoppingCart/ShoppingCart';
+import { GET_ACTIVE_ORDER } from "../components/ShoppingCart/ShoppingCart.vendure";
 import { formatPrice } from '../utilities/utilities';
 
 import styles from './ProductDetail.module.scss';
-
-const ADD_ITEM_TO_ORDER = gql`
-  mutation AddItemToOrder($id: ID!, $quantity: Int!) {
-    addItemToOrder(productVariantId: $id, quantity: $quantity) {
-      ...ActiveOrder
-    }
-  }
-  ${ORDER_FRAGMENT}
-`;
-
-const GET_ACTIVE_ORDER_ID = gql`
-  {
-    activeOrderId @client
-  }
-`;
-
-const SET_ACTIVE_ORDER_ID = gql`
-  mutation SetActiveOrderId($id: String!) {
-    setActiveOrderId(id: $id) @client
-  }
-`;
+import { ADD_ITEM_TO_ORDER, GET_ACTIVE_ORDER_ID, SET_ACTIVE_ORDER_ID } from "./ProductDetail.vendure";
 
 export default ({ data }) => {
   const product = data.vendure.product;
