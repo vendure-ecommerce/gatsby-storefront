@@ -37,7 +37,6 @@ export default ({ data }) => {
   const product = data.vendure.product;
   const [variantId, setVariantId] = useState(product.variants[0].id);
   const [quantity, setQuantity] = useState(1);
-  const activeOrder = useQuery(GET_ACTIVE_ORDER);
   const {
     data: { activeOrderId },
   } = useQuery(GET_ACTIVE_ORDER_ID);
@@ -46,69 +45,66 @@ export default ({ data }) => {
       id: variantId,
       quantity,
     },
+    update: (cache, mutationResult) => {
+      cache.writeQuery({
+        query: GET_ACTIVE_ORDER,
+        data: {
+          activeOrder: mutationResult.data.addItemToOrder,
+        },
+      });
+    },
   });
   const setActiveOrderId = useMutation(SET_ACTIVE_ORDER_ID);
-
-  /**
-   * Not sure if this is a total hack or not: After the first item is added to the
-   * order, we refetch the activeOrder query to force update the Apollo cache.
-   */
-  function addToOrderSetOrderId() {
-    addToOrder().then(res => {
-      if (!activeOrderId) {
-        return setActiveOrderId({
-          variables: { id: res.data.addItemToOrder.id },
-        }).then(() => activeOrder.refetch());
-      }
-    });
-  }
   return (
-      <Layout>
-        <div className="columns">
-          <figure className="column">
-            <img src={product.featuredAsset.preview + '?preset=medium'} />
-          </figure>
-          <div className="column">
-            <h1 className="title is-1">{product.name}</h1>
+    <Layout>
+      <div className="columns">
+        <figure className="column">
+          <img src={product.featuredAsset.preview + '?preset=medium'} />
+        </figure>
+        <div className="column">
+          <h1 className="title is-1">{product.name}</h1>
 
-            <div className={styles.description} dangerouslySetInnerHTML={{ __html: product.description }} />
+          <div
+            className={styles.description}
+            dangerouslySetInnerHTML={{ __html: product.description }}
+          />
 
-            <div>
-              <div className="select">
-                <select
-                    value={variantId}
-                    onChange={e => setVariantId(e.currentTarget.value)}
-                >
-                  {product.variants.map(variant => (
-                      <option key={variant.id} value={variant.id}>
-                        {variant.name}{' '}
-                        {formatPrice(variant.currencyCode, variant.priceWithTax)}
-                      </option>
-                  ))}
-                </select>
-              </div>
-              <div className="select">
-                <select
-                    value={quantity}
-                    onChange={e => setQuantity(+e.currentTarget.value)}
-                >
-                  {Array.from({ length: 10 }).map((_, index) => (
-                      <option key={index} value={index + 1}>
-                        {index + 1}
-                      </option>
-                  ))}
-                </select>
-              </div>
+          <div>
+            <div className="select">
+              <select
+                value={variantId}
+                onChange={e => setVariantId(e.currentTarget.value)}
+              >
+                {product.variants.map(variant => (
+                  <option key={variant.id} value={variant.id}>
+                    {variant.name}{' '}
+                    {formatPrice(variant.currencyCode, variant.priceWithTax)}
+                  </option>
+                ))}
+              </select>
             </div>
-            <button
-                className="button is-primary is-large"
-                onClick={addToOrderSetOrderId}
-            >
-              Add to cart
-            </button>
+            <div className="select">
+              <select
+                value={quantity}
+                onChange={e => setQuantity(+e.currentTarget.value)}
+              >
+                {Array.from({ length: 10 }).map((_, index) => (
+                  <option key={index} value={index + 1}>
+                    {index + 1}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
+          <button
+            className="button is-primary is-large"
+            onClick={() => addToOrder()}
+          >
+            Add to cart
+          </button>
         </div>
-      </Layout>
+      </div>
+    </Layout>
   );
 };
 
