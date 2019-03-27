@@ -8,6 +8,7 @@ import { formatPrice } from '../../utilities/utilities';
 
 import styles from './ShoppingCart.module.scss';
 import { ADJUST_ITEM_QUANTITY, GET_ACTIVE_ORDER } from "./ShoppingCart.vendure";
+import { Link } from "gatsby"
 
 export function ShoppingCart() {
   const { data, error, loading } = useQuery(GET_ACTIVE_ORDER);
@@ -38,6 +39,7 @@ export function ShoppingCart() {
           <button className="delete" onClick={() => setOpened(false)} />
           <h3 className="title is-3">Cart</h3>
           {data.activeOrder ? (
+              <>
               <CartContentsList
                   order={data.activeOrder}
                   adjustQuantity={(id, quantity) =>
@@ -46,6 +48,8 @@ export function ShoppingCart() {
                       })
                   }
               />
+                <Link className="button is-primary" to="/checkout">Checkout</Link>
+              </>
           ) : (
               <div>Empty!</div>
           )}
@@ -54,7 +58,7 @@ export function ShoppingCart() {
   );
 }
 
-function CartContentsList({ order, adjustQuantity }) {
+export function CartContentsList({ order, adjustQuantity }: { order: any, adjustQuantity?: Function }) {
   return (
       <div className={styles.cartContents}>
         {order.lines.map(line => (
@@ -72,7 +76,7 @@ function CartContentsList({ order, adjustQuantity }) {
   );
 }
 
-function CartContentsRow({ line, adjustQuantity }) {
+function CartContentsRow({ line, adjustQuantity }: { line: any, adjustQuantity?: Function }) {
   return (
       <div className={styles.cartRow}>
         <div className={styles.rowImage}>
@@ -81,19 +85,19 @@ function CartContentsRow({ line, adjustQuantity }) {
         <div className={styles.rowDetail}>
           <div>{line.productVariant.name}</div>
           <div className={styles.qtyRow}>
-            <button
+            {adjustQuantity && <button
                 className={styles.adjustQuantity}
                 onClick={() => adjustQuantity(line.id, line.quantity - 1)}
             >
-              <FontAwesomeIcon icon={faMinus} color="#999"/>
-            </button>
+                <FontAwesomeIcon icon={faMinus} color="#999"/>
+            </button>}
             {line.quantity}
-            <button
+            {adjustQuantity && <button
                 className={styles.adjustQuantity}
                 onClick={() => adjustQuantity(line.id, line.quantity + 1)}
             >
               <FontAwesomeIcon icon={faPlus} color="#999"/>
-            </button>
+            </button>}
             <div className={styles.rowTotal}>{formatPrice(line.productVariant.currencyCode, line.totalPrice)}</div>
           </div>
         </div>

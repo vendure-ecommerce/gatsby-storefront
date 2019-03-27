@@ -4,6 +4,7 @@ export const ORDER_FRAGMENT = gql`
   fragment ActiveOrder on Order {
     id
     code
+    state
     total
     currencyCode
     lines {

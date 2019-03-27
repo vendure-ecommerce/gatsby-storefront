@@ -11,7 +11,7 @@ const IndexPage = ({ data }) => (
   <Layout>
     <SEO title='Home' keywords={[`gatsby`, `application`, `react`]} />
     <section className={styles.productList}>
-      { data.vendure.search.items.map(item => <ProductCard product={item} key={item.id} />) }
+      { data.vendure.search.items.map(item => <ProductCard product={item} key={item.productId} />) }
     </section>
   </Layout>
 );

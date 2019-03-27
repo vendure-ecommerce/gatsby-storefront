@@ -7,17 +7,17 @@ generates:
         - name: apollo-boost
           identifier: gql
     plugins:
-      #- add: '// tslint:disable'
+      - add: '// tslint:disable'
       - typescript
       - typescript-operations
-  #./gatsby-types.ts:
-  #  schema: http://localhost:8000/___graphql
-  #  documents: src/**/*.{ts,tsx}
-  #  #pluckConfig:
-  #  #  modules:
-  #  #    - name: gatsby
-  #  #      identifier: graphql
-  #  plugins:
-  #    - add: '// tslint:disable'
-  #    - typescript
-  #    - typescript-operations
+  ./gatsby-types.ts:
+    schema: http://localhost:8000/___graphql
+    documents: src/**/*.{ts,tsx}
+    pluckConfig:
+      modules:
+        - name: gatsby
+          identifier: graphql
+    plugins:
+      - add: '// tslint:disable'
+      - typescript
+      - typescript-operations
