@@ -1,5 +1,7 @@
 # Vendure Gatsby Storefront
 
+## Deprecated: please use [vendure-ecommerce/storefront-gatsby-starter](https://github.com/vendure-ecommerce/storefront-gatsby-starter) instead
+
 This is a storefront app built with [Gatsby](https://www.gatsbyjs.org) and powered by [Vendure](https://www.vendure.io/).
 
 ## Status
